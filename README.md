@@ -51,41 +51,41 @@ ROOT
 
 Dessa estrutura as pastas onde é necessário atenção são (as demais são de uso do framework e não necessariamente são utilizadas)
 
-- ROOT/app/Http/Controllers/ApiV1
+- *ROOT/app/Http/Controllers/ApiV1*
 
 Onde temos os controllers da API
 
-- ROOT/app/Http/Controllers/
+- *ROOT/app/Http/Controllers/*
 
 Onde temos os controllers do CMS
 
-- ROOT/app/Http/routes.php
+- *ROOT/app/Http/routes.php*
 
 Onde definimos todas as rotas da aplicação, tanto do CMS quando da API
 
-- ROOT/config/database.php
+- *ROOT/config/database.php*
 
 Onde é adicionado as configurações do banco de dados, as configurações já estão parametrizadas para utilizar mongodb, e os dados de acesso ao banco de dados estão em um arquivo na raiz chamado .env
 
-- ROOT/resources
+- *ROOT/resources*
 
 Onde temos as views e os arquivos estáticos do CMS
 
-- ROOT/storage
+- *ROOT/storage*
 
 Onde as imagens dos produtos cadastrados no CMS são guardadas
 
-- ROOT/vendor
+- *ROOT/vendor*
 
 
 Onde as bibliotecas utilizadas no projeto são instaladas
 
 
-- ROOT/.env
+- *ROOT/.env*
 
 Arquivo texto simples onde são guardadas as configurações de banco de dados e urls de acesso, essas informações são guardadas em uma sintaxe simples de CHAVE=VALOR
 
-- ROOT/database-updater.php
+- *ROOT/database-updater.php*
 
 Script PHP utilizado para popular um banco de dados local, com informações dos produtos disponibilizados nas seguintes urls:
 
@@ -94,7 +94,7 @@ http://servicos.oi.com.br/api/atualizar-produtos/residencial
 
 http://servicos.oi.com.br/api/atualizar-produtos/empresarial
 
-- ROOT/database-updater.php
+- *ROOT/database-updater.php*
 
 Sempre que alguma informação de produto for atualizada, como preço, nome etc, esse script deve ser rodado. E sempre que for realizada uma nova instalação desse projeto, o script também deve ser atualizado.
 
