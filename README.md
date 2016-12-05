@@ -146,10 +146,131 @@ Esse endpoint chega no arquivo
 Método
 
 ```shell
-  pending_payment_products()
+pending_payment_products()
 ```
 
-Esse método pega os dados do carrinho do usuário, junta todas as informações do produto e retorna uma lista para o usuário
+Esse método pega os dados do carrinho do usuário, junta todas as informações do produto e retorna uma lista com as informações do catálogo da Oi e com os complementos de imagem e descrição feitos no CMS para o usuário. Esse endpoint retorna apenas produtos com status de `waiting` (produtos que ainda não foram pagos)
+
+---
+
+```shell
+POST /api/v1/cart/{id} HTTP/1.1
+Host: HOST_URL
+Content-Type: application/json
+Cache-Control: no-cache
+Cookie:ckCarrinhoVendas=8510fd2bd83b8f072efb57b3e135bc14b0770e69;ckOnline=8510fd2bd83b8f072efb57b3e135bc14b0770e69;
+```
+
+Esse endpoint chega no arquivo
+
+```shell
+*ROOT/app/Http/Controllers/ApiV1/CartController.php*
+```
+Método
+
+```shell
+add_item($id)
+```
+
+Esse adiciona um produto no carrinho
+
+---
+
+```shell
+POST /api/v1/cart/domains?planId={id} HTTP/1.1
+Host: HOST_URL
+Content-Type: application/json
+Cache-Control: no-cache
+Cookie:ckCarrinhoVendas=8510fd2bd83b8f072efb57b3e135bc14b0770e69;ckOnline=8510fd2bd83b8f072efb57b3e135bc14b0770e69;
+{
+  "ID_PRODUTO":
+  [
+    "dominio.com"
+  ]
+}
+```
+
+Esse endpoint chega no arquivo
+
+```shell
+*ROOT/app/Http/Controllers/ApiV1/CartController.php*
+```
+Método
+
+```shell
+add_domain_item()
+```
+
+Esse adiciona um produto no carrinho, apenas produtos do tipo domínio ou Oi Sites, o parametro `planId` na url é opcional.
+
+---
+
+```shell
+POST cart/remove/{id} HTTP/1.1
+Host: HOST_URL
+Content-Type: application/json
+Cache-Control: no-cache
+Cookie:ckCarrinhoVendas=8510fd2bd83b8f072efb57b3e135bc14b0770e69;ckOnline=8510fd2bd83b8f072efb57b3e135bc14b0770e69;
+```
+
+Esse endpoint chega no arquivo
+
+```shell
+*ROOT/app/Http/Controllers/ApiV1/CartController.php*
+```
+Método
+
+```shell
+delete_item($id)
+```
+
+Esse remove um produto do carrinho
+
+---
+
+```shell
+POST cart/payment-product/{id} HTTP/1.1
+Host: HOST_URL
+Content-Type: application/json
+Cache-Control: no-cache
+Cookie:ckCarrinhoVendas=8510fd2bd83b8f072efb57b3e135bc14b0770e69;ckOnline=8510fd2bd83b8f072efb57b3e135bc14b0770e69;
+```
+
+Esse endpoint chega no arquivo
+
+```shell
+*ROOT/app/Http/Controllers/ApiV1/CartController.php*
+```
+Método
+
+```shell
+pay_an_item($id)
+```
+
+Esse endpoint atualiza o status do produto para `paid` é chamado após o pagamento de um produto
+
+---
+
+```shell
+GET cart/cart_payment HTTP/1.1
+Host: HOST_URL
+Content-Type: application/json
+Cache-Control: no-cache
+Cookie:ckCarrinhoVendas=8510fd2bd83b8f072efb57b3e135bc14b0770e69;ckOnline=8510fd2bd83b8f072efb57b3e135bc14b0770e69;
+```
+
+Esse endpoint chega no arquivo
+
+```shell
+*ROOT/app/Http/Controllers/ApiV1/CartController.php*
+```
+Método
+
+```shell
+all_products()
+```
+
+Esse método pega os dados do carrinho do usuário, junta todas as informações do produto e retorna uma lista com as informações do catálogo da Oi e com os complementos de imagem e descrição feitos no CMS para o usuário. Esse endpoint retorna todos os produtos do carrinho do usuário, com status `waiting` e com status `paid`. 
 
 ---
 
@@ -158,7 +279,7 @@ POST /api/v1/discount-coupons HTTP/1.1
 Host: HOST_URL
 Content-Type: application/json
 Cache-Control: no-cache
-Cookie:ckCarrinhoVendas=8510fd2bd83b8f072efb57b3e135bc14b0770e69;
+Cookie:ckCarrinhoVendas=8510fd2bd83b8f072efb57b3e135bc14b0770e69;ckOnline=8510fd2bd83b8f072efb57b3e135bc14b0770e69;
 {
 	"coupon-value": 1010
 }
@@ -172,12 +293,84 @@ Esse endpoint chega no arquivo
 Método
 
 ```shell
-  store(Request $request)
+store(Request $request)
 ```
 
-Além das validações para saber se o código do cupom é válido, se está dentro do periodo de uso, a lógica do método é adicionar ao carrinho do usuários as informações do produto com desconto, exibindo para ele o novo produto, também é feita uma exlusão do produto do carrinho da Oi e adicionado o novo produto.
+Além das validações para saber se o código do cupom é válido, se está dentro do período de uso, a lógica do método é adicionar ao carrinho do usuários as informações do produto com desconto, exibindo para ele o novo produto, também é feita uma exclusão do produto do carrinho da Oi e adicionado o novo produto.
 
 ---
+
+```shell
+POST /api/v1/cross-selling HTTP/1.1
+Host: HOST_URL
+Content-Type: application/json
+Cache-Control: no-cache
+Cookie:ckCarrinhoVendas=8510fd2bd83b8f072efb57b3e135bc14b0770e69;ckOnline=8510fd2bd83b8f072efb57b3e135bc14b0770e69;
+```
+
+Esse endpoint chega no arquivo
+
+```shell
+*ROOT/app/Http/Controllers/ApiV1/CrossSellingController.php*
+```
+Método
+
+```shell
+index()
+```
+
+Esse endpoint retorna para o usuário uma lista de produtos sugeridos com até 2 níveis, com base no que o usuário acaba de comprar.
+
+---
+
+```shell
+GET /api/v1/checkout/summary HTTP/1.1
+Host: HOST_URL
+Content-Type: application/json
+Cache-Control: no-cache
+Cookie:ckCarrinhoVendas=8510fd2bd83b8f072efb57b3e135bc14b0770e69;ckOnline=8510fd2bd83b8f072efb57b3e135bc14b0770e69;
+```
+
+Esse endpoint chega no arquivo
+
+```shell
+*ROOT/app/Http/Controllers/ApiV1/SummaryController.php*
+```
+Método
+
+```shell
+index()
+```
+
+Esse endpoint retorna para o usuário uma lista de produtos pagos com as descrições cadastradas no CMS e com os dados de compra da API da Oi
+
+---
+
+```shell
+POST /api/v1/sessions/new HTTP/1.1
+Host: HOST_URL
+Content-Type: application/json
+Cache-Control: no-cache
+Cookie:ckCarrinhoVendas=8510fd2bd83b8f072efb57b3e135bc14b0770e69;ckOnline=8510fd2bd83b8f072efb57b3e135bc14b0770e69;
+{
+ 'login': LOGIN_USUARIO,
+ 'senha': SENHA_USUARIO,
+ 'isClientePPZ': false
+}
+```
+
+Esse endpoint chega no arquivo
+
+```shell
+*ROOT/app/Http/Controllers/ApiV1/SessionsController.php*
+```
+Método
+
+```shell
+createSession()
+```
+
+Esse endpoint é chamado sempre após o login ou após o cadastro, para atualizar o carrinho do usuário.
 
 [1]: https://secure.php.net/
 [2]: https://laravel.com/
